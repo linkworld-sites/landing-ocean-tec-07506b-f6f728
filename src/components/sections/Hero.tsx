@@ -154,7 +154,7 @@ export function Hero() {
 
         {/* CTAs */}
         <motion.div
-          className="mt-8 flex flex-wrap gap-4"
+          className="mt-8 flex flex-wrap gap-4 justify-center"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.9, duration: 0.8 }}
