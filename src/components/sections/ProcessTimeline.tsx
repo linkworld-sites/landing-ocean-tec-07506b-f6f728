@@ -42,7 +42,17 @@ export function ProcessTimeline() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section id="process" className="bg-abyss py-24 md:py-36 overflow-hidden">
+    <section id="process" className="relative bg-abyss py-24 md:py-36 overflow-hidden">
+      {/* process.png used as ultra-faint background texture */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.04]"
+        style={{
+          backgroundImage: "url('/images/process.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "saturate(0) contrast(1.5)",
+        }}
+      />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-16">
           <div className="overflow-hidden mb-4">

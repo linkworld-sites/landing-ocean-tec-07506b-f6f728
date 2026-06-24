@@ -21,6 +21,7 @@ export default function ContactPage() {
     track("form_start");
   }, []);
 
+
   return (
     <>
       <Nav />
@@ -111,7 +112,11 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <div className="[&_label>span]:font-mono [&_label>span]:text-xs [&_label>span]:text-sonar/50 [&_label>span]:tracking-wider [&_label>span]:uppercase [&_input]:bg-navy/60 [&_input]:border-cyan/20 [&_input]:text-white [&_input]:px-4 [&_input]:py-3.5 [&_input:focus]:border-cyan [&_textarea]:bg-navy/60 [&_textarea]:border-cyan/20 [&_textarea]:text-white [&_textarea]:px-4 [&_textarea]:py-3.5 [&_textarea:focus]:border-cyan [&_button[type=submit]]:bg-cyan [&_button[type=submit]]:text-abyss [&_button[type=submit]]:font-mono [&_button[type=submit]]:uppercase [&_button[type=submit]]:tracking-wider [&_button[type=submit]]:px-8 [&_button[type=submit]]:py-4 [&_button[type=submit]:hover]:bg-teal [&_button[type=submit]]:transition-colors [&_button[type=submit]]:font-semibold [&_p.text-xl]:font-display [&_p.text-xl]:text-white [&_p.opacity-60]:text-sonar/60">
+              {/* onSubmitCapture fires track("convert") when the form is submitted */}
+              <div
+                onSubmitCapture={() => track("convert")}
+                className="[&_label>span]:font-mono [&_label>span]:text-xs [&_label>span]:text-sonar/50 [&_label>span]:tracking-wider [&_label>span]:uppercase [&_input]:bg-navy/60 [&_input]:border-cyan/20 [&_input]:text-white [&_input]:px-4 [&_input]:py-3.5 [&_input:focus]:border-cyan [&_textarea]:bg-navy/60 [&_textarea]:border-cyan/20 [&_textarea]:text-white [&_textarea]:px-4 [&_textarea]:py-3.5 [&_textarea:focus]:border-cyan [&_button[type=submit]]:bg-cyan [&_button[type=submit]]:text-abyss [&_button[type=submit]]:font-mono [&_button[type=submit]]:uppercase [&_button[type=submit]]:tracking-wider [&_button[type=submit]]:px-8 [&_button[type=submit]]:py-4 [&_button[type=submit]:hover]:bg-teal [&_button[type=submit]]:transition-colors [&_button[type=submit]]:font-semibold [&_p.text-xl]:font-display [&_p.text-xl]:text-white [&_p.opacity-60]:text-sonar/60"
+              >
                 <ConversionForm
                   startStep="form_start"
                   submitStep="lead"
