@@ -22,10 +22,10 @@ function useCounter(target: number, duration: number, active: boolean) {
   return value;
 }
 
-const stats = [
+const stats: { value: number; suffix: string; prefix?: string; label: string; note: string }[] = [
   { value: 10, suffix: "+", label: "Years of Engineering\nExperience", note: "Founded 2014" },
   { value: 140, suffix: "+", label: "Battery Systems\nDeployed", note: "Across 3 continents" },
-  { value: 60, suffix: "+", label: "Propulsion Units\nin the Field", note: "Marine & industrial" },
+  { value: 1000, suffix: "", prefix: ">", label: "Propulsion Units\nin the Field", note: "Marine & industrial" },
   { value: 12, suffix: "", label: "Countries Served", note: "EU · MENA · APAC" },
 ];
 
@@ -107,7 +107,7 @@ function StatItem({
   active,
   shouldReduceMotion,
 }: {
-  stat: { value: number; suffix: string; label: string; note: string };
+  stat: { value: number; suffix: string; prefix?: string; label: string; note: string };
   index: number;
   active: boolean;
   shouldReduceMotion: boolean;
@@ -127,6 +127,7 @@ function StatItem({
 
       {/* Counter */}
       <div className="font-display text-teal font-bold leading-none" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+        {stat.prefix && <span className="text-cyan/60">{stat.prefix}</span>}
         {display}
         <span className="text-cyan/60">{stat.suffix}</span>
       </div>
