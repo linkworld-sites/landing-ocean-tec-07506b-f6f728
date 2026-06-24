@@ -25,7 +25,7 @@ function useCounter(target: number, duration: number, active: boolean) {
 const stats: { value: number; suffix: string; prefix?: string; label: string; note: string }[] = [
   { value: 10, suffix: "+", label: "Years of Engineering\nExperience", note: "Founded 2014" },
   { value: 140, suffix: "+", label: "Battery Systems\nDeployed", note: "Across 3 continents" },
-  { value: 1000, suffix: "", prefix: ">", label: "Propulsion Units\nin the Field", note: "Marine & industrial" },
+  { value: 2000, suffix: "", prefix: ">", label: "Propulsion Units\nin the Field", note: "Marine & industrial" },
   { value: 12, suffix: "", label: "Countries Served", note: "EU · MENA · APAC" },
 ];
 
