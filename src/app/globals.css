@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* Brand base */
+:root {
+  --color-abyss: #050D12;
+  --color-navy: #0A1F2E;
+  --color-cyan: #00A8CC;
+  --color-teal: #1DFFD0;
+  --color-sonar: #C8D8E0;
+  --color-warning: #FF4D1C;
+}
+
+::selection {
+  background: #00A8CC33;
+  color: #ffffff;
+}
+
+/* Depth-chart contour SVG background — used in stat section */
+.depth-chart-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cellipse cx='400' cy='200' rx='380' ry='180' fill='none' stroke='%2300A8CC' stroke-width='0.5' opacity='0.04'/%3E%3Cellipse cx='400' cy='200' rx='320' ry='150' fill='none' stroke='%2300A8CC' stroke-width='0.5' opacity='0.04'/%3E%3Cellipse cx='400' cy='200' rx='260' ry='120' fill='none' stroke='%2300A8CC' stroke-width='0.5' opacity='0.04'/%3E%3Cellipse cx='400' cy='200' rx='200' ry='90' fill='none' stroke='%2300A8CC' stroke-width='0.5' opacity='0.04'/%3E%3Cellipse cx='400' cy='200' rx='140' ry='60' fill='none' stroke='%2300A8CC' stroke-width='0.5' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* Blog / legal post body */
+.post-body { color: #C8D8E0; }
+.post-body h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; color: #ffffff; margin-bottom: 0.75em; }
+.post-body h2 { font-family: var(--font-display); font-size: 1.5em; font-weight: 600; letter-spacing: -0.01em; color: #ffffff; margin: 1.8em 0 0.6em; }
+.post-body h3 { font-family: var(--font-display); font-size: 1.25em; font-weight: 600; color: #ffffff; margin: 1.4em 0 0.5em; }
+.post-body p { margin: 1em 0; line-height: 1.75; font-size: 1.0625rem; }
+.post-body ul, .post-body ol { margin: 1em 0; padding-left: 1.5em; line-height: 1.75; }
+.post-body ul { list-style: disc; }
+.post-body ol { list-style: decimal; }
+.post-body a { color: #00A8CC; text-decoration: underline; text-underline-offset: 3px; }
+.post-body a:hover { color: #1DFFD0; }
+.post-body blockquote { border-left: 2px solid #00A8CC; padding-left: 1.2em; opacity: 0.85; margin: 1.5em 0; font-style: italic; }
+.post-body img { border-radius: 0.25em; margin: 1.5em 0; max-width: 100%; }
+.post-body strong { font-weight: 600; color: #ffffff; }
+.post-body code { font-family: var(--font-mono); font-size: 0.875em; background: rgba(0,168,204,0.08); border: 1px solid rgba(0,168,204,0.2); padding: 0.15em 0.4em; border-radius: 3px; color: #1DFFD0; }
+.post-body hr { border: none; border-top: 1px solid rgba(0,168,204,0.2); margin: 2em 0; }
+
+/* Ticker pause on hover */
+.ticker-track:hover { animation-play-state: paused; }
+
+/* Grid overlay for product hover */
+.grid-overlay {
+  background-image:
+    linear-gradient(rgba(0,168,204,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,168,204,0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
