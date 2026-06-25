@@ -9,12 +9,12 @@ const components = [
   {
     label: "Motor Controller",
     spec: "24–96V · 400A peak · CAN/PWM",
-    image: "/images/products/product-1.jpg",
+    image: "/images/products/product-5.jpg",
   },
   {
     label: "Battery System",
     spec: "Li-ion · 48V–800V · Custom config",
-    image: "/images/products/product-2.jpg",
+    image: "/images/products/product-6.jpg",
   },
   {
     label: "BMS Platform",
