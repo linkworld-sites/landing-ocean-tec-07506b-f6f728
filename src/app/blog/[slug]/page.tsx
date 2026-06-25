@@ -1,11 +1,40 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getPost, getPosts } from "@/lib/posts";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export function generateStaticParams() {
   return getPosts().map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPost(slug);
+  if (!post) return {};
+  return {
+    title: `${post.title} | OCEAN TEC`,
+    description: post.description,
+    keywords: [
+      "custom BMS development Austria",
+      "battery pack manufacturer Europe",
+      "maritime propulsion electronics",
+      "BLDC motor controller",
+      "PCBA development",
+      "marine battery systems",
+    ],
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+      publishedTime: post.date,
+    },
+  };
 }
 
 export default async function BlogPost({
