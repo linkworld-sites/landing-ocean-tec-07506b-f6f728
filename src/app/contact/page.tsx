@@ -1,26 +1,72 @@
 "use client";
 
-import { useEffect } from "react";
-import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import ConversionForm from "@/components/ConversionForm";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { track } from "@/lib/funnel";
 
-const fields = [
-  { name: "name", label: "Full Name", required: true },
-  { name: "company", label: "Company / Organisation", required: true },
-  { name: "email", label: "Email Address", type: "email", required: true },
-  { name: "role", label: "Your Role (e.g. R&D Lead, Procurement)" },
-  { name: "message", label: "Project Brief — what are you working on?", type: "textarea", required: true },
-];
+const PROJECT_TYPES = [
+  "Battery System",
+  "Propulsion",
+  "Full-Stack Electronics",
+  "Other",
+] as const;
+
+type ProjectType = (typeof PROJECT_TYPES)[number];
+
+interface FormState {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  projectType: ProjectType | "";
+  message: string;
+}
+
+const EMPTY: FormState = {
+  name: "",
+  company: "",
+  email: "",
+  phone: "",
+  projectType: "",
+  message: "",
+};
 
 export default function ContactPage() {
-  useEffect(() => {
-    track("form_start");
-  }, []);
+  const router = useRouter();
+  const [form, setForm] = useState<FormState>(EMPTY);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
+  const set = (field: keyof FormState) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    track("intent");
+    setBusy(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.success) {
+        setError(data.error ?? "Submission failed. Please try again or email us directly.");
+        return;
+      }
+      router.push("/contact/thank-you");
+    } catch {
+      setError("Unable to reach the server. Please check your connection and try again.");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <>
@@ -112,18 +158,125 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              {/* onSubmitCapture fires track("convert") when the form is submitted */}
-              <div
-                onSubmitCapture={() => track("convert")}
-                className="[&_label>span]:font-mono [&_label>span]:text-xs [&_label>span]:text-sonar/50 [&_label>span]:tracking-wider [&_label>span]:uppercase [&_input]:bg-navy/60 [&_input]:border-cyan/20 [&_input]:text-white [&_input]:px-4 [&_input]:py-3.5 [&_input:focus]:border-cyan [&_textarea]:bg-navy/60 [&_textarea]:border-cyan/20 [&_textarea]:text-white [&_textarea]:px-4 [&_textarea]:py-3.5 [&_textarea:focus]:border-cyan [&_button[type=submit]]:bg-cyan [&_button[type=submit]]:text-abyss [&_button[type=submit]]:font-mono [&_button[type=submit]]:uppercase [&_button[type=submit]]:tracking-wider [&_button[type=submit]]:px-8 [&_button[type=submit]]:py-4 [&_button[type=submit]:hover]:bg-teal [&_button[type=submit]]:transition-colors [&_button[type=submit]]:font-semibold [&_p.text-xl]:font-display [&_p.text-xl]:text-white [&_p.opacity-60]:text-sonar/60"
-              >
-                <ConversionForm
-                  startStep="form_start"
-                  submitStep="lead"
-                  cta="Send Project Brief"
-                  fields={fields}
-                />
-              </div>
+              <form onSubmit={handleSubmit} className="grid gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {/* Name */}
+                  <label className="grid gap-2 text-sm">
+                    <span className="font-mono text-xs text-sonar/50 tracking-wider uppercase">
+                      Full Name <span className="text-cyan">*</span>
+                    </span>
+                    <input
+                      name="name"
+                      type="text"
+                      required
+                      value={form.name}
+                      onChange={set("name")}
+                      className="border border-cyan/20 bg-navy/60 text-white px-4 py-3.5 outline-none focus:border-cyan transition-colors"
+                    />
+                  </label>
+
+                  {/* Company */}
+                  <label className="grid gap-2 text-sm">
+                    <span className="font-mono text-xs text-sonar/50 tracking-wider uppercase">
+                      Company / Organisation <span className="text-cyan">*</span>
+                    </span>
+                    <input
+                      name="company"
+                      type="text"
+                      required
+                      value={form.company}
+                      onChange={set("company")}
+                      className="border border-cyan/20 bg-navy/60 text-white px-4 py-3.5 outline-none focus:border-cyan transition-colors"
+                    />
+                  </label>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {/* Email */}
+                  <label className="grid gap-2 text-sm">
+                    <span className="font-mono text-xs text-sonar/50 tracking-wider uppercase">
+                      Email Address <span className="text-cyan">*</span>
+                    </span>
+                    <input
+                      name="email"
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={set("email")}
+                      className="border border-cyan/20 bg-navy/60 text-white px-4 py-3.5 outline-none focus:border-cyan transition-colors"
+                    />
+                  </label>
+
+                  {/* Phone (optional) */}
+                  <label className="grid gap-2 text-sm">
+                    <span className="font-mono text-xs text-sonar/50 tracking-wider uppercase">
+                      Phone
+                    </span>
+                    <input
+                      name="phone"
+                      type="tel"
+                      value={form.phone}
+                      onChange={set("phone")}
+                      className="border border-cyan/20 bg-navy/60 text-white px-4 py-3.5 outline-none focus:border-cyan transition-colors"
+                    />
+                  </label>
+                </div>
+
+                {/* Project type */}
+                <label className="grid gap-2 text-sm">
+                  <span className="font-mono text-xs text-sonar/50 tracking-wider uppercase">
+                    Project Type <span className="text-cyan">*</span>
+                  </span>
+                  <select
+                    name="projectType"
+                    required
+                    value={form.projectType}
+                    onChange={set("projectType")}
+                    className="border border-cyan/20 bg-navy/60 text-white px-4 py-3.5 outline-none focus:border-cyan transition-colors appearance-none"
+                  >
+                    <option value="" disabled>Select a category</option>
+                    {PROJECT_TYPES.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </label>
+
+                {/* Message */}
+                <label className="grid gap-2 text-sm">
+                  <span className="font-mono text-xs text-sonar/50 tracking-wider uppercase">
+                    Project Brief <span className="text-cyan">*</span>
+                  </span>
+                  <textarea
+                    name="message"
+                    required
+                    rows={5}
+                    value={form.message}
+                    onChange={set("message")}
+                    placeholder="Describe your requirements, target environment, timeline, and any key constraints."
+                    className="border border-cyan/20 bg-navy/60 text-white px-4 py-3.5 outline-none focus:border-cyan transition-colors resize-none placeholder:text-sonar/30"
+                  />
+                </label>
+
+                {/* Error message */}
+                {error && (
+                  <p className="font-mono text-xs text-red-400 border border-red-400/20 bg-red-400/5 px-4 py-3">
+                    {error}
+                  </p>
+                )}
+
+                {/* Submit */}
+                <div>
+                  <motion.button
+                    type="submit"
+                    disabled={busy}
+                    whileHover={busy ? {} : { scale: 1.02 }}
+                    whileTap={busy ? {} : { scale: 0.98 }}
+                    className="bg-cyan text-abyss font-mono uppercase tracking-wider px-8 py-4 font-semibold transition-colors hover:bg-teal disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {busy ? "Sending…" : "Send Project Brief"}
+                  </motion.button>
+                </div>
+              </form>
             </motion.div>
           </div>
         </div>
