@@ -24,10 +24,43 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OCEAN TEC — Precision in Every Environment",
+  metadataBase: new URL("https://0c72351b.run.linkworld.ai"),
+  title: {
+    default: "OCEAN TEC — Precision in Every Environment",
+    template: "%s | OCEAN TEC",
+  },
   description:
-    "Custom battery systems, propulsion devices, and embedded solutions engineered for harsh environments. Austria-based. Series production ready.",
-  keywords: ["battery systems", "propulsion", "maritime engineering", "BMS", "embedded electronics", "Klagenfurt"],
+    "OCEAN TEC engineers and manufactures custom battery systems, jet propulsion units, and embedded electronics for maritime and subsea applications — from 800V BMS to 300 m-rated drives.",
+  keywords: [
+    "custom marine battery system manufacturer",
+    "underwater jet propulsion OEM",
+    "custom BMS development maritime",
+    "battery systems",
+    "propulsion",
+    "maritime engineering",
+    "BMS",
+    "embedded electronics",
+    "800V battery management system",
+    "subsea electronics",
+  ],
+  alternates: {
+    canonical: "https://0c72351b.run.linkworld.ai",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: "https://0c72351b.run.linkworld.ai",
+    siteName: "OCEAN TEC",
+    title: "OCEAN TEC — Precision in Every Environment",
+    description:
+      "OCEAN TEC engineers and manufactures custom battery systems, jet propulsion units, and embedded electronics for maritime and subsea applications — from 800V BMS to 300 m-rated drives.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OCEAN TEC — Precision in Every Environment",
+    description:
+      "OCEAN TEC engineers and manufactures custom battery systems, jet propulsion units, and embedded electronics for maritime and subsea applications — from 800V BMS to 300 m-rated drives.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
